@@ -455,7 +455,7 @@ function waxSeal() {
     + '<path d="M58 35 C54 44 56 52 52 60" fill="none" stroke="rgba(60,0,0,0.15)" stroke-width="1" stroke-linecap="round"/>'
     // center emblem - L monogram
     + '<circle cx="50" cy="50" r="18" fill="rgba(60,0,0,0.25)"/>'
-    + '<text x="50" y="57" text-anchor="middle" font-family="serif" font-size="22" font-weight="bold" fill="rgba(255,220,180,0.9)" letter-spacing="1">L</text>'
+    + '<text x="50" y="58" text-anchor="middle" font-size="26" fill="rgba(255,220,180,0.9)">&#9733;</text>'
     // shine spot
     + '<ellipse cx="38" cy="32" rx="7" ry="4" fill="rgba(255,180,180,0.2)" transform="rotate(-30 38 32)"/>'
     + '</svg></div>';
@@ -476,7 +476,7 @@ function buildGrid() {
       var s = state[i] || {};
       if (s.completed) cell.classList.add('completed');
       cell.innerHTML = '<div class="cell-challenge">' + ch + '</div>'
-        + (s.book ? '<div class="cell-book">' + s.book + '</div>' : '');
+        + (s.book ? '<div class="cell-book">' + s.book + '</div>' : '') + (s.completed ? waxSeal() : '');
       cell.addEventListener('click', function() { openModal(parseInt(this.getAttribute('data-index'))); });
     }
     grid.appendChild(cell);
