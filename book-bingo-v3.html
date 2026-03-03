@@ -1,0 +1,576 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>Book Bingo 2026 — Lanterns & Lore</title>
+<link href="https://fonts.googleapis.com/css2?family=UnifrakturMaguntia&family=Cinzel:wght@400;600;700&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=IM+Fell+English:ital@0;1&display=swap" rel="stylesheet"/>
+<style>
+:root {
+  --gold-deep:    #b8860b;
+  --gold-bright:  #d4af37;
+  --gold-light:   #f0d070;
+  --parchment:    #fdf8ef;
+  --parchment-dk: #f5ead5;
+  --ink:          #2a1f0e;
+  --ink-light:    #4a3828;
+  --stone:        #e8dfc8;
+  --stone-dk:     #c8bfa8;
+  --border-orn:   #c9a84c;
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  background: var(--parchment);
+  background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none'%3E%3Cg fill='%23c9a84c' fill-opacity='0.07'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  color: var(--ink);
+  min-height: 100vh;
+  padding-bottom: 80px;
+}
+
+/* ── NAVBAR ── */
+.blog-nav {
+  background: linear-gradient(180deg, #1a1208 0%, #2a1f0e 100%);
+  border-bottom: 2px solid var(--gold-deep);
+  position: sticky; top: 0; z-index: 100;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.4);
+}
+.blog-nav-inner {
+  max-width: 1100px; margin: 0 auto; padding: 0 24px;
+  display: flex; align-items: center; justify-content: space-between; gap: 16px;
+}
+.blog-nav-logo {
+  font-family: 'UnifrakturMaguntia', cursive;
+  font-size: 1.4rem; color: var(--gold-light);
+  text-decoration: none; padding: 12px 0;
+  text-shadow: 0 0 12px rgba(212,175,55,0.4); white-space: nowrap;
+}
+.blog-nav-links { display: flex; }
+.blog-nav-links a {
+  font-family: 'Cinzel', serif; font-size: 0.68rem; font-weight: 600;
+  letter-spacing: 0.15em; text-transform: uppercase;
+  color: var(--stone); text-decoration: none; padding: 14px 16px;
+  transition: color 0.2s, background 0.2s; white-space: nowrap;
+}
+.blog-nav-links a:hover { color: var(--gold-light); background: rgba(212,175,55,0.08); }
+.blog-nav-links a.active { color: var(--gold-bright); border-bottom: 2px solid var(--gold-bright); }
+
+/* ── PAGE HEADER ── */
+.page-header {
+  text-align: center; padding: 48px 24px 32px;
+}
+.page-header h1 {
+  font-family: 'UnifrakturMaguntia', cursive;
+  font-size: clamp(2rem, 5vw, 3rem); color: var(--ink);
+  text-shadow: 1px 2px 0 rgba(201,168,76,0.4); margin-bottom: 8px;
+}
+.page-header p {
+  font-family: 'IM Fell English', serif; font-style: italic;
+  color: var(--ink-light); font-size: 1rem; opacity: 0.8;
+}
+.orn-divider {
+  display: flex; align-items: center; gap: 12px;
+  color: var(--gold-deep); margin: 14px auto; max-width: 400px;
+}
+.orn-divider::before, .orn-divider::after {
+  content: ''; flex: 1; height: 1px;
+  background: linear-gradient(to right, transparent, var(--border-orn), transparent);
+}
+
+/* ── MAIN ── */
+.main-wrap {
+  max-width: 900px; margin: 0 auto; padding: 0 24px;
+}
+
+/* ── PROGRESS ── */
+.bingo-progress {
+  display: flex; align-items: center; gap: 16px;
+  margin-bottom: 32px; padding: 16px 24px;
+  background: linear-gradient(135deg, var(--parchment-dk), var(--parchment));
+  border: 1px solid rgba(201,168,76,0.3);
+}
+.progress-nums {
+  font-family: 'Cinzel', serif; white-space: nowrap;
+}
+.progress-nums strong {
+  font-size: 1.6rem; color: var(--gold-deep); line-height: 1;
+}
+.progress-nums span {
+  font-size: 0.7rem; letter-spacing: 0.1em; color: var(--ink-light); display: block; margin-top: 2px;
+}
+.progress-bar-wrap {
+  flex: 1; height: 8px; background: var(--stone); border-radius: 4px; overflow: hidden;
+}
+.progress-bar-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--gold-deep), var(--gold-bright));
+  border-radius: 4px; transition: width 0.5s ease;
+}
+.bingo-count {
+  font-family: 'Cinzel', serif; font-size: 0.65rem;
+  letter-spacing: 0.12em; color: var(--gold-deep); white-space: nowrap;
+}
+
+/* ── BINGO GRID ── */
+.bingo-grid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 8px;
+  margin-bottom: 40px;
+}
+
+/* ── BINGO CELL ── */
+.bingo-cell {
+  aspect-ratio: 1;
+  border: 1px solid var(--border-orn);
+  background: linear-gradient(135deg, var(--parchment), var(--parchment-dk));
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  padding: 10px 8px; text-align: center;
+  cursor: pointer; position: relative;
+  transition: all 0.25s; user-select: none;
+  box-shadow: inset 0 0 0 1px rgba(201,168,76,0.15);
+}
+.bingo-cell:hover {
+  border-color: var(--gold-bright);
+  background: linear-gradient(135deg, var(--gold-pale), var(--parchment-dk));
+  box-shadow: 0 4px 16px rgba(184,134,11,0.15), inset 0 0 0 1px rgba(201,168,76,0.3);
+}
+.bingo-cell.completed {
+  background: linear-gradient(135deg, rgba(184,134,11,0.12), rgba(212,175,55,0.08));
+  border-color: var(--gold-bright);
+}
+.bingo-cell.completed .wax-seal {
+  display: flex !important;
+}
+
+/* FREE SPACE */
+.bingo-cell.free-space {
+  background: linear-gradient(135deg, rgba(184,134,11,0.18), rgba(212,175,55,0.12));
+  border-color: var(--gold-bright);
+  border-width: 2px;
+  cursor: default;
+}
+.bingo-cell.free-space::after { display: none; }
+
+.cell-challenge {
+  font-family: 'Cinzel', serif;
+  font-size: clamp(0.52rem, 1.2vw, 0.68rem);
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--ink);
+  line-height: 1.3;
+  margin-bottom: 4px;
+}
+.cell-book {
+  font-family: 'IM Fell English', Georgia, serif;
+  font-style: italic;
+  font-size: clamp(0.5rem, 1vw, 0.62rem);
+  color: var(--gold-deep);
+  line-height: 1.3;
+  margin-top: 4px;
+  opacity: 0.9;
+}
+.free-label {
+  font-family: 'UnifrakturMaguntia', cursive;
+  font-size: clamp(1rem, 2.5vw, 1.4rem);
+  color: var(--gold-deep);
+  text-shadow: 0 0 8px rgba(184,134,11,0.3);
+}
+
+/* ── BINGO LINES INDICATOR ── */
+.bingo-lines {
+  display: flex; gap: 10px; flex-wrap: wrap;
+  margin-bottom: 32px;
+}
+.bingo-line-badge {
+  font-family: 'Cinzel', serif; font-size: 0.6rem;
+  letter-spacing: 0.12em; text-transform: uppercase;
+  padding: 5px 12px;
+  border: 1px solid rgba(201,168,76,0.3);
+  color: var(--stone-dk);
+  background: transparent;
+  transition: all 0.3s;
+}
+.bingo-line-badge.achieved {
+  color: var(--gold-deep);
+  border-color: var(--gold-bright);
+  background: rgba(212,175,55,0.08);
+}
+
+
+/* ── WAX SEAL ── */
+.wax-seal {
+  display: none;
+  position: absolute;
+  top: -12px; right: -12px;
+  width: 36px; height: 36px;
+  z-index: 3;
+  pointer-events: none;
+  animation: seal-drop 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+  filter: drop-shadow(0 2px 6px rgba(139,30,30,0.5));
+}
+@keyframes seal-drop {
+  0%   { transform: scale(0) rotate(-20deg); opacity: 0; }
+  60%  { transform: scale(1.15) rotate(5deg); opacity: 1; }
+  100% { transform: scale(1) rotate(0deg); opacity: 1; }
+}
+.wax-seal svg { width: 100%; height: 100%; }
+
+/* ── MODAL ── */
+.modal-overlay {
+  display: none; position: fixed; inset: 0;
+  background: rgba(42,31,14,0.7); z-index: 200;
+  align-items: center; justify-content: center;
+  padding: 20px;
+}
+.modal-overlay.open { display: flex; }
+.modal {
+  background: var(--parchment);
+  border: 2px solid var(--border-orn);
+  padding: 32px;
+  max-width: 420px; width: 100%;
+  position: relative;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.4);
+}
+.modal::before {
+  content: '';
+  position: absolute; top: 6px; left: 6px; right: 6px; bottom: 6px;
+  border: 1px solid rgba(201,168,76,0.25); pointer-events: none;
+}
+.modal-close {
+  position: absolute; top: 12px; right: 14px;
+  background: none; border: none; cursor: pointer;
+  font-size: 1.2rem; color: var(--stone-dk);
+  transition: color 0.2s;
+}
+.modal-close:hover { color: var(--ink); }
+.modal-title {
+  font-family: 'Cinzel', serif; font-size: 0.65rem;
+  letter-spacing: 0.18em; text-transform: uppercase;
+  color: var(--gold-deep); margin-bottom: 6px;
+}
+.modal-challenge {
+  font-family: 'Cinzel', serif; font-size: 1rem;
+  font-weight: 700; color: var(--ink);
+  margin-bottom: 20px; line-height: 1.4;
+}
+.modal-label {
+  font-family: 'Cinzel', serif; font-size: 0.62rem;
+  letter-spacing: 0.15em; text-transform: uppercase;
+  color: var(--ink-light); margin-bottom: 6px; display: block;
+}
+.modal-input {
+  width: 100%; padding: 10px 12px;
+  font-family: 'IM Fell English', Georgia, serif;
+  font-style: italic; font-size: 0.95rem;
+  color: var(--ink); background: var(--parchment-dk);
+  border: 1px solid rgba(201,168,76,0.5); outline: none;
+  transition: border-color 0.2s; margin-bottom: 20px;
+}
+.modal-input:focus { border-color: var(--gold-bright); }
+.modal-btns { display: flex; gap: 10px; }
+.modal-btn {
+  font-family: 'Cinzel', serif; font-size: 0.65rem;
+  letter-spacing: 0.15em; text-transform: uppercase;
+  padding: 10px 20px; cursor: pointer; border: none;
+  transition: all 0.2s; flex: 1;
+}
+.modal-btn-primary {
+  background: var(--gold-deep); color: var(--parchment);
+}
+.modal-btn-primary:hover { background: var(--gold-bright); }
+.modal-btn-secondary {
+  background: transparent; color: var(--ink-light);
+  border: 1px solid rgba(201,168,76,0.4);
+}
+.modal-btn-secondary:hover { border-color: var(--gold-deep); color: var(--ink); }
+.modal-btn-danger {
+  background: transparent; color: #8b3a3a;
+  border: 1px solid rgba(139,58,58,0.3);
+  font-size: 0.58rem;
+}
+.modal-btn-danger:hover { background: rgba(139,58,58,0.08); }
+
+@media (max-width: 600px) {
+  .bingo-grid { gap: 5px; }
+  .bingo-cell { padding: 6px 4px; }
+  .blog-nav-links a { padding: 12px 10px; font-size: 0.58rem; }
+}
+</style>
+</head>
+<body>
+
+<!-- NAVBAR -->
+<nav class="blog-nav">
+  <div class="blog-nav-inner">
+    <a class="blog-nav-logo" href="https://lanternslore.blogspot.com">lanterns &amp; lore</a>
+    <div class="blog-nav-links">
+      <a href="https://lanternslore.blogspot.com">Home</a>
+      <a href="https://lanternslore.blogspot.com/search/label/Reviews">Reviews</a>
+      <a href="https://vicguerrra.github.io/lanterns-lore/">Reading Projects</a>
+      <a href="https://vicguerrra.github.io/bookshelf/">Bookshelf</a>
+      <a href="#" class="active">Book Bingo</a>
+    </div>
+  </div>
+</nav>
+
+<!-- HEADER -->
+<div class="page-header">
+  <h1>Book Bingo 2026</h1>
+  <div class="orn-divider">&#9670;</div>
+  <p>Twenty-five reading challenges. One year to conquer them all.</p>
+</div>
+
+<div class="main-wrap">
+
+  <!-- PROGRESS -->
+  <div class="bingo-progress">
+    <div class="progress-nums">
+      <strong id="prog-num">0</strong>
+      <span id="prog-label">of 24 completed</span>
+    </div>
+    <div class="progress-bar-wrap">
+      <div class="progress-bar-fill" id="prog-bar"></div>
+    </div>
+    <div class="bingo-count" id="bingo-count"></div>
+  </div>
+
+  <!-- BINGO LINES -->
+  <div class="bingo-lines" id="bingo-lines"></div>
+
+  <!-- GRID -->
+  <div class="bingo-grid" id="bingo-grid"></div>
+
+</div>
+
+<!-- MODAL -->
+<div class="modal-overlay" id="modal">
+  <div class="modal">
+    <button class="modal-close" onclick="closeModal()">&#10005;</button>
+    <div class="modal-title">Challenge</div>
+    <div class="modal-challenge" id="modal-challenge"></div>
+    <label class="modal-label" for="modal-book-input">Book used for this challenge</label>
+    <input class="modal-input" id="modal-book-input" type="text" placeholder="Title — Author"/>
+    <div class="modal-btns">
+      <button class="modal-btn modal-btn-primary" onclick="saveCell()">Mark as Complete</button>
+      <button class="modal-btn modal-btn-secondary" onclick="closeModal()">Cancel</button>
+      <button class="modal-btn modal-btn-danger" id="modal-uncomplete" onclick="uncompleteCell()" style="display:none">Undo</button>
+    </div>
+  </div>
+</div>
+
+<script>
+// ══════════════════════════════════════════════════════
+// SEUS DESAFIOS — edite os 24 textos abaixo
+// A posição 12 (índice 12) é o FREE SPACE, não edite
+// ══════════════════════════════════════════════════════
+var CHALLENGES = [
+  "A book with a one-word title",        // 0
+  "A book by a female author",           // 1
+  "A book over 500 pages",               // 2
+  "A debut novel",                       // 3
+  "A book set in another country",       // 4
+
+  "A book with magic",                   // 5
+  "A reread",                            // 6
+  "A book recommended by a friend",      // 7
+  "A standalone novel",                  // 8
+  "A book with a map inside",            // 9
+
+  "A series starter",                    // 10
+  "A book published this year",          // 11
+  "FREE",                                // 12 — FREE SPACE, não edite
+  "A book with a nonhuman protagonist",  // 13
+  "A book with a villain POV",           // 14
+
+  "A translated book",                   // 15
+  "A book under 300 pages",              // 16
+  "An author you've never read before",  // 17
+  "A book with a color in the title",    // 18
+  "A book set in the past",              // 19
+
+  "A book with found family",            // 20
+  "A book with a twist ending",          // 21
+  "A book from your TBR for 1+ year",    // 22
+  "A book with a female protagonist",    // 23
+  "A book that made you cry",            // 24
+];
+// ══════════════════════════════════════════════════════
+
+// ══════════════════════════════════════════════════════
+// SEU PROGRESSO — atualize aqui quando completar um desafio
+// completed: true  = desafio concluído
+// book: "Título"   = livro usado
+// Os números são as posições na cartela (0 a 24, sendo 12 o FREE SPACE)
+//
+// Exemplo:
+// 0: { completed: true, book: "The Name of the Wind — Patrick Rothfuss" },
+// ══════════════════════════════════════════════════════
+var PROGRESS = {
+  0:  { completed: false, book: "" },
+  1:  { completed: false, book: "" },
+  2:  { completed: false, book: "" },
+  3:  { completed: false, book: "" },
+  4:  { completed: false, book: "" },
+  5:  { completed: false, book: "" },
+  6:  { completed: false, book: "" },
+  7:  { completed: false, book: "" },
+  8:  { completed: false, book: "" },
+  9:  { completed: false, book: "" },
+  10: { completed: false, book: "" },
+  11: { completed: false, book: "" },
+  // 12 = FREE SPACE — nao edite
+  13: { completed: false, book: "" },
+  14: { completed: false, book: "" },
+  15: { completed: false, book: "" },
+  16: { completed: false, book: "" },
+  17: { completed: false, book: "" },
+  18: { completed: false, book: "" },
+  19: { completed: false, book: "" },
+  20: { completed: false, book: "" },
+  21: { completed: false, book: "" },
+  22: { completed: false, book: "" },
+  23: { completed: false, book: "" },
+  24: { completed: false, book: "" },
+};
+// ══════════════════════════════════════════════════════
+
+var state = {};
+var activeCell = null;
+
+function loadState() { state = PROGRESS; }
+function saveState() {} // progresso salvo direto no codigo acima — nao precisa fazer nada aqui
+
+function waxSeal() {
+  return '<div class="wax-seal"><svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">'
+    // outer blob shape - irregular wax drip
+    + '<path d="M50 5 C62 3 74 8 82 18 C92 28 96 42 94 55 C92 68 84 80 73 87 C62 94 47 96 35 91 C23 86 13 76 8 63 C3 50 5 35 12 24 C20 12 35 7 50 5 Z" fill="#8b1a1a"/>'
+    // inner highlight - lighter area top left
+    + '<path d="M50 12 C60 10 70 15 77 24 C84 33 87 45 85 56 C83 65 77 74 69 80" fill="none" stroke="rgba(220,80,80,0.4)" stroke-width="4" stroke-linecap="round"/>'
+    // texture cracks
+    + '<path d="M40 30 C44 38 42 48 45 56" fill="none" stroke="rgba(60,0,0,0.2)" stroke-width="1.5" stroke-linecap="round"/>'
+    + '<path d="M58 35 C54 44 56 52 52 60" fill="none" stroke="rgba(60,0,0,0.15)" stroke-width="1" stroke-linecap="round"/>'
+    // center emblem - L monogram
+    + '<circle cx="50" cy="50" r="18" fill="rgba(60,0,0,0.25)"/>'
+    + '<text x="50" y="57" text-anchor="middle" font-family="serif" font-size="22" font-weight="bold" fill="rgba(255,220,180,0.9)" letter-spacing="1">L</text>'
+    // shine spot
+    + '<ellipse cx="38" cy="32" rx="7" ry="4" fill="rgba(255,180,180,0.2)" transform="rotate(-30 38 32)"/>'
+    + '</svg></div>';
+}
+
+function buildGrid() {
+  var grid = document.getElementById('bingo-grid');
+  grid.innerHTML = '';
+  CHALLENGES.forEach(function(ch, i) {
+    var cell = document.createElement('div');
+    cell.className = 'bingo-cell';
+    cell.setAttribute('data-index', i);
+
+    if (i === 12) {
+      cell.classList.add('free-space', 'completed');
+      cell.innerHTML = '<div class="free-label">Free</div>';
+    } else {
+      var s = state[i] || {};
+      if (s.completed) cell.classList.add('completed');
+      cell.innerHTML = '<div class="cell-challenge">' + ch + '</div>'
+        + (s.book ? '<div class="cell-book">' + s.book + '</div>' : '');
+      cell.addEventListener('click', function() { openModal(parseInt(this.getAttribute('data-index'))); });
+    }
+    grid.appendChild(cell);
+  });
+  updateProgress();
+  checkBingo();
+}
+
+function updateProgress() {
+  var completed = Object.keys(state).filter(function(k) { return state[k].completed; }).length;
+  var total = 24;
+  var pct = Math.round((completed / total) * 100);
+  document.getElementById('prog-num').textContent  = completed;
+  document.getElementById('prog-bar').style.width  = pct + '%';
+}
+
+function checkBingo() {
+  var grid = [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24];
+  function isComplete(i) { return i === 12 || (state[i] && state[i].completed); }
+
+  var lines = [
+    // rows
+    [0,1,2,3,4],[5,6,7,8,9],[10,11,12,13,14],[15,16,17,18,19],[20,21,22,23,24],
+    // cols
+    [0,5,10,15,20],[1,6,11,16,21],[2,7,12,17,22],[3,8,13,18,23],[4,9,14,19,24],
+    // diagonals
+    [0,6,12,18,24],[4,8,12,16,20]
+  ];
+
+  var labels = [
+    'Row 1','Row 2','Row 3','Row 4','Row 5',
+    'Col 1','Col 2','Col 3','Col 4','Col 5',
+    'Diagonal ↘','Diagonal ↙'
+  ];
+
+  var bingoCount = 0;
+  var html = '';
+  lines.forEach(function(line, idx) {
+    var achieved = line.every(isComplete);
+    if (achieved) bingoCount++;
+    html += '<div class="bingo-line-badge' + (achieved ? ' achieved' : '') + '">'
+      + (achieved ? '&#9733; ' : '') + labels[idx] + '</div>';
+  });
+
+  document.getElementById('bingo-lines').innerHTML = html;
+  document.getElementById('bingo-count').textContent = bingoCount > 0
+    ? bingoCount + (bingoCount === 1 ? ' BINGO!' : ' BINGOs!')
+    : '';
+}
+
+function openModal(idx) {
+  activeCell = idx;
+  var s = state[idx] || {};
+  document.getElementById('modal-challenge').textContent = CHALLENGES[idx];
+  document.getElementById('modal-book-input').value = s.book || '';
+  document.getElementById('modal-uncomplete').style.display = s.completed ? 'block' : 'none';
+  document.getElementById('modal').classList.add('open');
+  document.getElementById('modal-book-input').focus();
+}
+
+function closeModal() {
+  document.getElementById('modal').classList.remove('open');
+  activeCell = null;
+}
+
+function saveCell() {
+  if (activeCell === null) return;
+  var book = document.getElementById('modal-book-input').value.trim();
+  state[activeCell] = { completed: true, book: book };
+  saveState();
+  buildGrid();
+  closeModal();
+}
+
+function uncompleteCell() {
+  if (activeCell === null) return;
+  delete state[activeCell];
+  saveState();
+  buildGrid();
+  closeModal();
+}
+
+// close modal on overlay click
+document.getElementById('modal').addEventListener('click', function(e) {
+  if (e.target === this) closeModal();
+});
+
+// Enter to save
+document.getElementById('modal-book-input').addEventListener('keydown', function(e) {
+  if (e.key === 'Enter') saveCell();
+});
+
+loadState();
+buildGrid();
+</script>
+</body>
+</html>
